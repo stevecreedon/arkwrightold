@@ -6,7 +6,7 @@ module Json
    end
    
    def self.show(supplier)
-     {:supplier => supplier.robject.data}
+     {:supplier => supplier.robject.data.merge(:key => supplier.key)}
    end   
     
   end

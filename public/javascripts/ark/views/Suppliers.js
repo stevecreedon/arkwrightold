@@ -83,7 +83,7 @@ Ext.define('Ark.views.Suppliers', {
 						}),
 						listeners:{
 							itemdblclick: function(a,record){
-								Ark.models.Supplier.find(record.data.email, openSupplierWindow);
+								Ark.models.Supplier.find(record.data.key, openSupplierWindow);
 							}
 						},
                         columns: [

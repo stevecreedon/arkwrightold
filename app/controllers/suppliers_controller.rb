@@ -6,14 +6,16 @@ class SuppliersController < ApplicationController
       :email => s.email, 
       :www => s.www, 
       :telephone => s.telephone,
-      :contact => s.contact}
+      :contact => s.contact,
+      :key => s.key}
     end
     render :json => Json::Suppliers.index(data)
   end
   
   def show
-    
-  end
+     supplier = Supplier.find(params[:id])
+     render :json => Json::Suppliers.show(supplier)
+   end
   
   def create
     supplier  = Supplier.create!(

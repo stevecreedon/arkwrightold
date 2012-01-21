@@ -1,7 +1,7 @@
 Ext.define('Ark.models.Supplier', {
     extend: 'Ext.data.Model',
     fields: [
-		{name: 'id', type: 'string'},
+		{name: 'key', type: 'string'},
         {name: 'name',  type: 'string'},
         {name: 'email',   type: 'string'},
         {name: 'www',   type: 'string'},
@@ -10,7 +10,8 @@ Ext.define('Ark.models.Supplier', {
     ],
 	isNew: function(){
 		return (this.get('id') == null || this.get('id') == '')
-	}
+	},
+	idProperty: 'key'
 });
 
 Ark.models.Supplier.addStatics({
@@ -21,7 +22,8 @@ Ark.models.Supplier.addStatics({
 		    method: 'GET',
 		    success: function(result, request) {
 			    var json = Ext.decode(result.responseText);
-				handler(json.supplier);
+				supplier = new Ark.models.Supplier(json.supplier);
+				handler(supplier);
 			},
 		    failure: function(result, request) {
 		        Ext.Msg.alert('Error!', 'There was a problem while loading the data...');
