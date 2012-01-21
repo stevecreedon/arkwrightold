@@ -19,7 +19,7 @@ If you are unsure which license is appropriate for your use, please contact the 
  * http://www.sencha.com/license
  */
 
-Ext.define('MyDesktop.TabWindow', {
+Ext.define('Ark.TabWindow', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [

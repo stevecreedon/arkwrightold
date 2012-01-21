@@ -21,7 +21,7 @@ If you are unsure which license is appropriate for your use, please contact the 
 
 // From code originally written by David Davis (http://www.sencha.com/blog/html5-video-canvas-and-ext-js/)
 
-Ext.define('MyDesktop.VideoWindow', {
+Ext.define('Ark.VideoWindow', {
     extend: 'Ext.ux.desktop.Module',
 
     uses: [

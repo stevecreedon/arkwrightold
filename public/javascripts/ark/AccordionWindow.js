@@ -19,7 +19,7 @@ If you are unsure which license is appropriate for your use, please contact the 
  * http://www.sencha.com/license
  */
 
-Ext.define('MyDesktop.AccordionWindow', {
+Ext.define('Ark.AccordionWindow', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [

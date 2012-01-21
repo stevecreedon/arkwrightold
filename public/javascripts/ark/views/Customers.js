@@ -19,21 +19,23 @@ If you are unsure which license is appropriate for your use, please contact the 
  * http://www.sencha.com/license
  */
 
-Ext.define('MyDesktop.GridWindow', {
+Ext.define('Ark.views.Customers', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [
+        'Ext.ux.desktop.HtmlBuilder',
         'Ext.data.ArrayStore',
         'Ext.util.Format',
         'Ext.grid.Panel',
-        'Ext.grid.RowNumberer'
+        'Ext.grid.RowNumberer',
+		'Ark.models.Customer'
     ],
 
-    id:'grid-win',
+    id:'customers', //matches {name:"Customers",iconCls:"grid-shortcut", module:"customers"}, in App.js
 
     init : function(){
         this.launcher = {
-            text: 'Grid Window',
+            text: 'Customers',
             iconCls:'icon-grid',
             handler : this.createWindow,
             scope: this
@@ -42,11 +44,13 @@ Ext.define('MyDesktop.GridWindow', {
 
     createWindow : function(){
         var desktop = this.app.getDesktop();
-        var win = desktop.getWindow('grid-win');
+        var win = desktop.getWindow('customers');
+		var app = this.app;
+		var x = new Ext.ux.desktop.HtmlBuilder();
         if(!win){
             win = desktop.createWindow({
-                id: 'grid-win',
-                title:'Grid Window',
+                id: 'customers', /*not sure what this id does (see above)*/
+                title:'Customers',
                 width:740,
                 height:480,
                 iconCls: 'icon-grid',
@@ -58,32 +62,67 @@ Ext.define('MyDesktop.GridWindow', {
                         border: false,
                         xtype: 'grid',
                         store: Ext.create('Ext.data.Store', {
-						    model: 'User',
+						    model: 'Ark.models.Customer',
 						    proxy: {
-						        type: 'ajax',
-						        url : '/users.json',
-						        reader: {
-						            type: 'json',
-						            root: 'users'
-						        }
-						    },
+							        type: 'ajax',
+							        url : '/customers',
+							        reader: {
+							            type: 'json',
+							            root: 'customers'
+							        }
+							},
 						    autoLoad: true
 						}),
+						listeners:{
+							itemdblclick: function(a,record){
+								module = app.getModule('customer');
+						        win = module && module.createWindow(record.data.email);
+
+						        if (win) {
+						            desktop.restoreWindow(win);
+						        }
+							}
+						},
                         columns: [
                             new Ext.grid.RowNumberer(),
                             {
                                 text: "name",
                                 flex: 1,
                                 sortable: true,
-                                dataIndex: 'company'
+                                dataIndex: 'name'
                             },
                             {
                                 text: "email",
-                                width: 70,
+                                flex: 1,
                                 sortable: true,
-                                renderer: Ext.util.Format.usMoney,
-                                dataIndex: 'price'
-                            }
+                                dataIndex: 'email'
+                            },
+							{
+                                text: "country",
+                                width: 60,
+                                sortable: true,
+                                dataIndex: 'country_code'
+                            },
+							{
+	                            text: "orders",
+	                            width: 100,
+	                            sortable: true,
+	                            dataIndex: 'orders_count'
+	                         },
+							 {
+	                            text: "spent",
+	                            width: 100,
+	                            sortable: true,
+	                            // dataIndex: 'total_spent'
+								xtype: 'templatecolumn', 
+								tpl: '£{total_spent}'
+	                         },
+	                        {
+	                            text: "created",
+	                            width: 150,
+	                            sortable: true,
+	                            dataIndex: 'created'
+	                         }
                         ]
                     }
                 ],
@@ -104,33 +143,6 @@ Ext.define('MyDesktop.GridWindow', {
         }
         win.show();
         return win;
-    },
-
-    statics: {
-        getDummyData: function () {
-            return [
-                ['3m Co',71.72,0.02,0.03,'9/1 12:00am'],
-                ['Alcoa Inc',29.01,0.42,1.47,'9/1 12:00am'],
-                ['American Express Company',52.55,0.01,0.02,'9/1 12:00am'],
-                ['American International Group, Inc.',64.13,0.31,0.49,'9/1 12:00am'],
-                ['AT&T Inc.',31.61,-0.48,-1.54,'9/1 12:00am'],
-                ['Caterpillar Inc.',67.27,0.92,1.39,'9/1 12:00am'],
-                ['Citigroup, Inc.',49.37,0.02,0.04,'9/1 12:00am'],
-                ['Exxon Mobil Corp',68.1,-0.43,-0.64,'9/1 12:00am'],
-                ['General Electric Company',34.14,-0.08,-0.23,'9/1 12:00am'],
-                ['General Motors Corporation',30.27,1.09,3.74,'9/1 12:00am'],
-                ['Hewlett-Packard Co.',36.53,-0.03,-0.08,'9/1 12:00am'],
-                ['Honeywell Intl Inc',38.77,0.05,0.13,'9/1 12:00am'],
-                ['Intel Corporation',19.88,0.31,1.58,'9/1 12:00am'],
-                ['Johnson & Johnson',64.72,0.06,0.09,'9/1 12:00am'],
-                ['Merck & Co., Inc.',40.96,0.41,1.01,'9/1 12:00am'],
-                ['Microsoft Corporation',25.84,0.14,0.54,'9/1 12:00am'],
-                ['The Coca-Cola Company',45.07,0.26,0.58,'9/1 12:00am'],
-                ['The Procter & Gamble Company',61.91,0.01,0.02,'9/1 12:00am'],
-                ['Wal-Mart Stores, Inc.',45.45,0.73,1.63,'9/1 12:00am'],
-                ['Walt Disney Company (The) (Holding Company)',29.89,0.24,0.81,'9/1 12:00am']
-            ];
-        }
     }
 });
 

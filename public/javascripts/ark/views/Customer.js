@@ -1,4 +1,4 @@
-Ext.define('MyDesktop.Customer', {
+Ext.define('Ark.views.Customer', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [

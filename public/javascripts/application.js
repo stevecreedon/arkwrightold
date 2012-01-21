@@ -5,8 +5,20 @@ Ext.Loader.setConfig({enabled: true});
 Ext.Loader.setPath({
       'Ext': 'javascripts/src',
       'Ext.ux.desktop': 'javascripts/extjs',
-       MyDesktop: 'javascripts/mydesktop'
+       Ark: 'javascripts/ark',
+	   'Ark.models' : 'javascripts/ark/models',
+	   'Ark.views' : 'javascripts/ark/views'
 });
+
+requires: [
+    'Ext.ux.desktop.HtmlBuilder',
+    'Ext.data.ArrayStore',
+    'Ext.util.Format',
+    'Ext.grid.Panel',
+    'Ext.grid.RowNumberer',
+	'Ark.models.Customer'
+	
+]
 
 Ext.override(Ext.ZIndexManager, { 
 
@@ -29,17 +41,14 @@ Ext.override(Ext.ZIndexManager, {
 
 });
 
-Ext.define('Customer', {
-    extend: 'Ext.data.Model',
-    fields: [
-        {name: 'name',  type: 'string'},
-        {name: 'email',   type: 'string'},
-        {name: 'created',   type: 'date'},
-        {name: 'orders_count',   type: 'float'},
-        {name: 'total_spent',   type: 'float'},
- 		{name: 'country_code',   type: 'string'} 
-    ]
-});
+Ext.require('Ark.App');
+
+  var myDesktopApp;
+  Ext.onReady(function () {
+      myDesktopApp = new Ark.App();
+  });
+
+
 
 
 

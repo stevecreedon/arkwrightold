@@ -1,27 +1,27 @@
-Ext.define("MyDesktop.App", {extend:"Ext.ux.desktop.App",
+Ext.define("Ark.App", {extend:"Ext.ux.desktop.App",
 	requires:[
 		"Ext.window.MessageBox",
 		"Ext.ux.desktop.ShortcutModel",
-		"MyDesktop.SystemStatus",
-		"MyDesktop.VideoWindow",
-		"MyDesktop.GridWindow",
-		"MyDesktop.TabWindow",
-		"MyDesktop.AccordionWindow",
-		"MyDesktop.Notepad",
-		"MyDesktop.BogusMenuModule",
-		"MyDesktop.BogusModule",
-		"MyDesktop.Settings"
+		"Ark.SystemStatus",
+		"Ark.VideoWindow",
+		"Ark.GridWindow",
+		"Ark.TabWindow",
+		"Ark.AccordionWindow",
+		"Ark.Notepad",
+		"Ark.BogusMenuModule",
+		"Ark.BogusModule",
+		"Ark.Settings"
 	],
 	init:function(){this.callParent()},
 	getModules:function(){
-			return[	new MyDesktop.VideoWindow(),
-					new MyDesktop.SystemStatus(),
-					new MyDesktop.GridWindow(),
-					new MyDesktop.TabWindow(),
-					new MyDesktop.AccordionWindow(),
-					new MyDesktop.Notepad(),
-					new MyDesktop.BogusMenuModule(),
-					new MyDesktop.BogusModule()]},
+			return[	new Ark.VideoWindow(),
+					new Ark.SystemStatus(),
+					new Ark.GridWindow(),
+					new Ark.TabWindow(),
+					new Ark.AccordionWindow(),
+					new Ark.Notepad(),
+					new Ark.BogusMenuModule(),
+					new Ark.BogusModule()]},
 					
 	getDesktopConfig:function(){
 		var b=this,a=b.callParent();
@@ -70,6 +70,6 @@ Ext.define("MyDesktop.App", {extend:"Ext.ux.desktop.App",
 	},
 	
 	onSettings:function(){
-		var a=new MyDesktop.Settings({desktop:this.desktop});
+		var a=new Ark.Settings({desktop:this.desktop});
 		a.show()}
 });

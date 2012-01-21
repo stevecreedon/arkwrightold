@@ -19,8 +19,8 @@ If you are unsure which license is appropriate for your use, please contact the 
 * http://www.sencha.com/license
 */
 
-Ext.define('MyDesktop.BogusMenuModule', {
-    extend: 'MyDesktop.BogusModule',
+Ext.define('Ark.BogusMenuModule', {
+    extend: 'Ark.BogusModule',
 
     init : function() {
 

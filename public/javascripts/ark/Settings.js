@@ -19,7 +19,7 @@ If you are unsure which license is appropriate for your use, please contact the 
  * http://www.sencha.com/license
  */
 
-Ext.define('MyDesktop.Settings', {
+Ext.define('Ark.Settings', {
     extend: 'Ext.window.Window',
 
     uses: [
@@ -31,7 +31,7 @@ Ext.define('MyDesktop.Settings', {
 
         'Ext.ux.desktop.Wallpaper',
 
-        'MyDesktop.WallpaperModel'
+        'Ark.WallpaperModel'
     ],
 
     layout: 'anchor',
@@ -109,7 +109,7 @@ Ext.define('MyDesktop.Settings', {
                 scope: this
             },
             store: new Ext.data.TreeStore({
-                model: 'MyDesktop.WallpaperModel',
+                model: 'Ark.WallpaperModel',
                 root: {
                     text:'Wallpaper',
                     expanded: true,

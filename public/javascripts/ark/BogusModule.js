@@ -21,7 +21,7 @@ If you are unsure which license is appropriate for your use, please contact the 
 
 var windowIndex = 0;
 
-Ext.define('MyDesktop.BogusModule', {
+Ext.define('Ark.BogusModule', {
     extend: 'Ext.ux.desktop.Module',
 
     init : function(){

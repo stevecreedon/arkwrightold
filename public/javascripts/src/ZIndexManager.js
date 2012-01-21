@@ -207,7 +207,7 @@ Ext.define('Ext.ZIndexManager', {
      * <p>Where this may be useful is moving Windows between two ZIndexManagers. For example,
      * to bring the Ext.MessageBox dialog under the same manager as the Desktop's
      * ZIndexManager in the desktop sample app:</p><code><pre>
-MyDesktop.getDesktop().getManager().register(Ext.MessageBox);
+Ark.getDesktop().getManager().register(Ext.MessageBox);
 </pre></code>
      * @param {Ext.Component} comp The Component to register.
      */
