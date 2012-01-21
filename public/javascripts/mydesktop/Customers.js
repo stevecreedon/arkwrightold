@@ -23,6 +23,7 @@ Ext.define('MyDesktop.Customers', {
     extend: 'Ext.ux.desktop.Module',
 
     requires: [
+        'Ext.ux.desktop.HtmlBuilder',
         'Ext.data.ArrayStore',
         'Ext.util.Format',
         'Ext.grid.Panel',
@@ -44,6 +45,7 @@ Ext.define('MyDesktop.Customers', {
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('customers');
 		var app = this.app;
+		var x = new Ext.ux.desktop.HtmlBuilder();
         if(!win){
             win = desktop.createWindow({
                 id: 'customers', /*not sure what this id does (see above)*/
@@ -72,7 +74,6 @@ Ext.define('MyDesktop.Customers', {
 						}),
 						listeners:{
 							itemdblclick: function(a,record){
-								console.log(record)
 								module = app.getModule('customer');
 						        win = module && module.createWindow(record.data.email);
 
@@ -95,6 +96,20 @@ Ext.define('MyDesktop.Customers', {
                                 sortable: true,
                                 dataIndex: 'email'
                             },
+							{
+	                            text: "orders",
+	                            width: 100,
+	                            sortable: true,
+	                            dataIndex: 'orders_count'
+	                         },
+							 {
+	                            text: "spent",
+	                            width: 100,
+	                            sortable: true,
+	                            // dataIndex: 'total_spent'
+								xtype: 'templatecolumn', 
+								tpl: '£{total_spent}'
+	                         },
 	                        {
 	                            text: "created",
 	                            width: 150,

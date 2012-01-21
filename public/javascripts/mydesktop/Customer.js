@@ -26,36 +26,57 @@ Ext.define('MyDesktop.Customer', {
         var setCustomer = function(result, request){
 			var json = Ext.decode(result.responseText);
 	        namePanel(json.customer);
+			for(i in json.customer.addresses){
+				var address = json.customer.addresses[i];
+				addressPanel(address);
+			}
 		};
 		var namePanel = function(customer){
-			var panel = win.items.items[0];
-			html = [];
-			console.log(customer)
-			created = new Date(customer.created_at);
-			console.log(created)
-			html.push("<h1>" + customer.first_name + " " + customer.last_name + "</h1>");
-			html.push("<div>" + customer.addresses[0].city + ", " + customer.addresses[0].country + "</div>")
-			html.push("<div><a href='mailto:" + customer.email + "'>" + customer.email + "</a></div>");
-			html.push("<div>accepts marketing? " + customer.accepts_marketing + "</div>");
-			html.push("<div>became customer on " + Ext.Date.format(created, Ext.Date.format(created, 'd-m-Y')) + "</div>");
-			html.push("<div>Orders: " + customer.orders_count + "</div>");
-			html.push("<div>Spent: £" + customer.total_spent + "</div>");
-			panel.update(html.join("")); 
+			var panel = new Ext.Panel({title:"customer"})
+			var created = new Date(customer.created_at);
+			var builder = new Ext.ux.desktop.HtmlBuilder();
+			
+			builder.add(customer.first_name + " " + customer.last_name, "h1");
+			builder.add(customer.addresses[0].city + ", " + customer.addresses[0].country);
+			builder.add("<a href='mailto:" + customer.email + "'>" + customer.email + "</a>");
+			builder.add("accepts marketing? " + customer.accepts_marketing);
+			builder.add("became customer on " + Ext.Date.format(created, Ext.Date.format(created, 'd-m-Y')));
+			builder.add("Orders: " + customer.orders_count);
+			builder.add("Spent: £" + customer.total_spent);
+			
+			panel.update(builder.html());
+			win.add(panel);
+		};
+		
+		var addressPanel = function(address){
+			var panel = new Ext.Panel({title:"address"});
+			var builder = new Ext.ux.desktop.HtmlBuilder();
+			
+			builder.add(address.address1);
+			builder.add(address.address2);
+			builder.add(address.province);
+			builder.add(address.city);
+			builder.add(address.zip);
+			builder.add(address.country);
+			
+			panel.update(builder.html());
+			win.add(panel);
 		}
+		
         if(!win){
             win = desktop.createWindow({
-                id: 'customer',
+                id: 'customer' + email,
 				email: email,
-                title:'Customer',
-                width:740,
-                height:480,
+                title:'Customer: ' + email,
+                width:370,
+                height:400,
                 iconCls: 'icon-grid',
                 animCollapse:false,
                 constrainHeader:true,
 				listeners: {
 					show: function(){
 						Ext.Ajax.request({
-						    url: 'customers/' + email.replace(/\./g,"_"),
+						    url: 'customers/' + email.replace(/\./g,"_DOT_"),
 						    method: 'GET',
 						    success: setCustomer,
 						    failure: function(result, request) {
@@ -75,18 +96,6 @@ Ext.define('MyDesktop.Customer', {
 				        animate: true,
 				        activeOnTop: true
 				 },
-				 items: [{
-				        title: 'Contact',
-				        html: 'Panel content!'
-				    },{
-				        title: 'Panel 2',
-				        html: 'Panel content!'
-				    },{
-				        title: 'Panel 3',
-				        html: 'Panel content!'
-				  }],
-				  //renderTo: Ext.getBody(),
-				
                 tbar:[{
                     text:'Add Something',
                     tooltip:'Add a new row',

@@ -34,7 +34,9 @@ Ext.define('Customer', {
     fields: [
         {name: 'name',  type: 'string'},
         {name: 'email',   type: 'string'},
-        {name: 'created',   type: 'date'}
+        {name: 'created',   type: 'date'},
+        {name: 'orders_count',   type: 'float'},
+        {name: 'total_spent',   type: 'float'} 
     ]
 });
 
