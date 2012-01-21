@@ -97,6 +97,12 @@ Ext.define('MyDesktop.Customers', {
                                 dataIndex: 'email'
                             },
 							{
+                                text: "country",
+                                width: 60,
+                                sortable: true,
+                                dataIndex: 'country_code'
+                            },
+							{
 	                            text: "orders",
 	                            width: 100,
 	                            sortable: true,
