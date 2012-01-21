@@ -46,7 +46,14 @@ Ext.define('Ark.views.Suppliers', {
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('suppliers');
 		var app = this.app;
-		var x = new Ext.ux.desktop.HtmlBuilder();
+		var openSupplierWindow = function(supplier){
+			module = app.getModule('supplier');
+	        win = module && module.createWindow(supplier);
+
+	        if (win) {
+	            desktop.restoreWindow(win);
+	        }
+		};
         if(!win){
             win = desktop.createWindow({
                 id: 'suppliers', /*not sure what this id does (see above)*/
@@ -76,12 +83,7 @@ Ext.define('Ark.views.Suppliers', {
 						}),
 						listeners:{
 							itemdblclick: function(a,record){
-								module = app.getModule('supplier');
-						        win = module && module.createWindow(record.data.email);
-
-						        if (win) {
-						            desktop.restoreWindow(win);
-						        }
+								Ark.models.Supplier.find(record.data.email, openSupplierWindow);
 							}
 						},
                         columns: [
@@ -119,11 +121,8 @@ Ext.define('Ark.views.Suppliers', {
                     iconCls:'add',
 					listeners:{
 						click: function(){
-							module = app.getModule('supplier');
-					        win = module && module.createWindow('new');
-					        if (win) {
-					            desktop.restoreWindow(win);
-					        }
+							supplier = new Ark.models.Supplier();
+							openSupplierWindow(supplier);
 						}
 					},
                 	}, '-', {

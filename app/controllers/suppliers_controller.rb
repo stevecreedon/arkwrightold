@@ -16,7 +16,13 @@ class SuppliersController < ApplicationController
   end
   
   def create
-    supplier  = Supplier.create!(params[:supplier])
+    supplier  = Supplier.create!(
+                                  :name => params[:name], 
+                                  :email => params[:email], 
+                                  :www => params[:www],
+                                  :contact => params[:contact],
+                                  :telephone => params[:telephone]
+                                )
     render :json => Json::Sencha::OK
   end
   

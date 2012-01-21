@@ -20,15 +20,16 @@ Ext.define('Ark.views.Supplier', {
         };
     },
 
-	createWindow : function(){
-		var id = new Date().toString()
+	createWindow : function(supplier){
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('supplier');
-        var form = this.createForm();
+        var form = this.createForm(supplier);
+
         if(!win){
             win = desktop.createWindow({
-                id: 'supplier' + id,
-                title:'Supplier: ' + id,
+                id: 'supplier' + supplier.data.name,
+                title:'Supplier: ' + supplier.data.name,
+				supplier: supplier,
                 width:370,
                 height:400,
                 iconCls: 'icon-grid',
@@ -79,7 +80,7 @@ Ext.define('Ark.views.Supplier', {
         win.show();
         return win;
     },
-	createForm: function(){
+	createForm: function(supplier){
 		var supply_type_store = Ext.create('Ext.data.Store', {
 		    fields: ['supply_type'],
 		    data : [
@@ -100,7 +101,12 @@ Ext.define('Ark.views.Supplier', {
 		    renderTo: Ext.getBody()
 		});
 		
-		
+		console.log(supplier.isNew())
+		var method = 'PUT';
+		if(supplier.isNew()){
+			method = 'POST';
+		}
+
 		form = Ext.create('Ext.form.Panel', {
 		    title: 'Simple Form',
 		    bodyPadding: 5,
@@ -108,6 +114,7 @@ Ext.define('Ark.views.Supplier', {
 
 		    // The form will submit an AJAX request to this URL when submitted
 		    url: '/suppliers',
+			method: method,
 
 		    // Fields will be arranged vertically, stretched to full width
 		    layout: 'anchor',
@@ -120,27 +127,27 @@ Ext.define('Ark.views.Supplier', {
 		    items: [
 			{
 		        fieldLabel: 'Company Name',
-		        name: 'supplier[name]',
+		        name: 'name',
 		        allowBlank: false
 		    }
 			,{
 			    fieldLabel: 'Website',
-			    name: 'supplier[www]',
+			    name: 'www',
 			    allowBlank: false
 			}
 			,{
 		        fieldLabel: 'Telephone',
-		        name: 'supplier[telephone]',
+		        name: 'telephone',
 		        allowBlank: false
 		    }
 			,{
 			    fieldLabel: 'Contact Name',
-			    name: 'supplier[contact]',
+			    name: 'contact',
 			    allowBlank: false
 			}
 			,{
 			    fieldLabel: 'Contact Email',
-			    name: 'supplier[email]',
+			    name: 'email',
 			    allowBlank: false
 			},
 			supply_types
@@ -172,6 +179,8 @@ Ext.define('Ark.views.Supplier', {
 		    }],
 		    renderTo: Ext.getBody()
 		});
+		
+		form.loadRecord(supplier);
 		return form;
 	}
 	

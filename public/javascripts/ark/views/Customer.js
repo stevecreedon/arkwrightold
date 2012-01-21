@@ -23,11 +23,10 @@ Ext.define('Ark.views.Customer', {
     createWindow : function(email){
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('customer');
-        var setCustomer = function(result, request){
-			var json = Ext.decode(result.responseText);
-	        namePanel(json.customer);
-			for(i in json.customer.addresses){
-				var address = json.customer.addresses[i];
+        var setCustomer = function(customer){
+	        namePanel(customer);
+			for(i in customer.addresses){
+				var address = customer.addresses[i];
 				addressPanel(address);
 			}
 		};
@@ -75,14 +74,7 @@ Ext.define('Ark.views.Customer', {
                 constrainHeader:true,
 				listeners: {
 					show: function(){
-						Ext.Ajax.request({
-						    url: 'customers/' + email.replace(/\./g,"_DOT_"),
-						    method: 'GET',
-						    success: setCustomer,
-						    failure: function(result, request) {
-						        Ext.Msg.alert('Error!', 'There was a problem while loading the data...');
-						    }
-						});
+					   Ark.models.Customer.find(email, setCustomer);
 					}
 				},
                 layout: 'accordion',
