@@ -27,6 +27,7 @@ Manager::Application.routes.draw do
   
   resource :public
   resources :customers
+  resources :suppliers
 
   # Sample resource route with sub-resources:
   #   resources :products do
