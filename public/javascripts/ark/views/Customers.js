@@ -71,7 +71,8 @@ Ext.define('Ark.views.Customers', {
 							            root: 'customers'
 							        }
 							},
-						    autoLoad: true
+						    autoLoad: true,
+							storeId: 'customers_index'
 						}),
 						listeners:{
 							itemdblclick: function(a,record){

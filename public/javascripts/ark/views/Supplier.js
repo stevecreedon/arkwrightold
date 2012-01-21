@@ -117,29 +117,30 @@ Ext.define('Ark.views.Supplier', {
 
 		    // The fields
 		    defaultType: 'textfield',
-		    items: [{
+		    items: [
+			{
 		        fieldLabel: 'Company Name',
-		        name: 'name',
+		        name: 'supplier[name]',
 		        allowBlank: false
 		    }
 			,{
 			    fieldLabel: 'Website',
-			    name: 'www',
+			    name: 'supplier[www]',
 			    allowBlank: false
 			}
 			,{
 		        fieldLabel: 'Telephone',
-		        name: 'telephone',
+		        name: 'supplier[telephone]',
 		        allowBlank: false
 		    }
 			,{
 			    fieldLabel: 'Contact Name',
-			    name: 'contact',
+			    name: 'supplier[contact]',
 			    allowBlank: false
 			}
 			,{
 			    fieldLabel: 'Contact Email',
-			    name: 'email',
+			    name: 'supplier[email]',
 			    allowBlank: false
 			},
 			supply_types
@@ -160,7 +161,7 @@ Ext.define('Ark.views.Supplier', {
 		            if (form.isValid()) {
 		                form.submit({
 		                    success: function(form, action) {
-		                       Ext.Msg.alert('Success', action.result.msg);
+		                       Ext.data.StoreManager.lookup('suppliers_index').load();
 		                    },
 		                    failure: function(form, action) {
 		                        Ext.Msg.alert('Failed', action.result.msg);
