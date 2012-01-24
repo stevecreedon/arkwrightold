@@ -20,7 +20,7 @@ Ext.define('Ark.views.Customer', {
         };
     },
 
-    createWindow : function(email){
+    createWindow : function(args){
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('customer');
         var setCustomer = function(customer){
@@ -64,9 +64,9 @@ Ext.define('Ark.views.Customer', {
 		
         if(!win){
             win = desktop.createWindow({
-                id: 'customer' + email,
-				email: email,
-                title:'Customer: ' + email,
+                id: 'customer' + args.email,
+				email: args.email,
+                title:'Customer: ' + args.email,
                 width:370,
                 height:400,
                 iconCls: 'icon-grid',
@@ -74,7 +74,7 @@ Ext.define('Ark.views.Customer', {
                 constrainHeader:true,
 				listeners: {
 					show: function(){
-					   Ark.models.Customer.find(email, setCustomer);
+					   Ark.models.Customer.find(args.email, setCustomer);
 					}
 				},
                 layout: 'accordion',

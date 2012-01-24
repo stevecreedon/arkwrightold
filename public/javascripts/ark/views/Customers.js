@@ -46,6 +46,12 @@ Ext.define('Ark.views.Customers', {
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('customers');
 		var app = this.app;
+		var grid = function(){
+			return win.items.items[0];
+		};
+		var selected = function(){
+			return grid().getSelectionModel().selected.items[0];
+		};
 		var menu = Ext.create('Ext.menu.Menu', {
 		    width: 100,
 		    height: 100,
@@ -56,10 +62,9 @@ Ext.define('Ark.views.Customers', {
 		        text: 'regular item 1',
 				listeners: {
 					click: function(item, event, opts){
+						var record = selected();
+						alert(record.get('email'));
 						
-						grid = win.items.items[0];
-						record = grid.getSelectionModel().selected.items[0];
-						alert(record.get('email'))
 					}
 				}
 		    },{
@@ -68,6 +73,16 @@ Ext.define('Ark.views.Customers', {
 		        text: 'regular item 3'
 		    }]
 		});
+		
+		var openWindow = function(moduleName, args){
+			module = app.getModule(moduleName);
+		    win = module && module.createWindow(args);
+
+		    if (win) {
+		       desktop.restoreWindow(win);
+		    }
+		};
+		
         if(!win){
             win = desktop.createWindow({
                 id: 'customers', /*not sure what this id does (see above)*/
@@ -97,19 +112,9 @@ Ext.define('Ark.views.Customers', {
 						}),
 						listeners:{
 							itemdblclick: function(a,record){
-								module = app.getModule('customer');
-						        win = module && module.createWindow(record.data.email);
-
-						        if (win) {
-						            desktop.restoreWindow(win);
-						        }
+							    openWindow('customer', {email: record.get('email')});
 							},
 							cellclick: function(grid, cellHtml, columnIndex, record, rowHtml, rowIndex, event){
-								console.log(grid);
-								console.log(cellHtml);
-								console.log(columnIndex);
-								console.log(record);
-								console.log(event);
 								if(columnIndex == 6){
 									event.stopEvent();
 									menu.showAt(event.xy);
