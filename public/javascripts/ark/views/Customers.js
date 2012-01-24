@@ -46,7 +46,28 @@ Ext.define('Ark.views.Customers', {
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('customers');
 		var app = this.app;
-		var x = new Ext.ux.desktop.HtmlBuilder();
+		var menu = Ext.create('Ext.menu.Menu', {
+		    width: 100,
+		    height: 100,
+		    margin: '0 0 10 0',
+		    floating: false,  // usually you want this set to True (default)
+		    renderTo: Ext.getBody(),  // usually rendered by it's containing component
+		    items: [{
+		        text: 'regular item 1',
+				listeners: {
+					click: function(item, event, opts){
+						
+						grid = win.items.items[0];
+						record = grid.getSelectionModel().selected.items[0];
+						alert(record.get('email'))
+					}
+				}
+		    },{
+		        text: 'regular item 2'
+		    },{
+		        text: 'regular item 3'
+		    }]
+		});
         if(!win){
             win = desktop.createWindow({
                 id: 'customers', /*not sure what this id does (see above)*/
@@ -82,6 +103,18 @@ Ext.define('Ark.views.Customers', {
 						        if (win) {
 						            desktop.restoreWindow(win);
 						        }
+							},
+							cellclick: function(grid, cellHtml, columnIndex, record, rowHtml, rowIndex, event){
+								console.log(grid);
+								console.log(cellHtml);
+								console.log(columnIndex);
+								console.log(record);
+								console.log(event);
+								if(columnIndex == 6){
+									event.stopEvent();
+									menu.showAt(event.xy);
+								}
+								
 							}
 						},
                         columns: [
@@ -142,6 +175,7 @@ Ext.define('Ark.views.Customers', {
                 }]
             });
         }
+		win.add(menu);
         win.show();
         return win;
     }
