@@ -59,18 +59,17 @@ Ext.define('Ark.views.Customers', {
 		    floating: false,  // usually you want this set to True (default)
 		    renderTo: Ext.getBody(),  // usually rendered by it's containing component
 		    items: [{
-		        text: 'regular item 1',
+		        text: 'edit',
 				listeners: {
 					click: function(item, event, opts){
-						var record = selected();
-						alert(record.get('email'));
-						
+						openWindow('customer', {email: selected().get('email')});
+						menu.hide();
 					}
 				}
 		    },{
-		        text: 'regular item 2'
+		        text: 'orders'
 		    },{
-		        text: 'regular item 3'
+		        text: 'package sent'
 		    }]
 		});
 		
