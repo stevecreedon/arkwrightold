@@ -28,3 +28,17 @@ Ark.models.Customer.addStatics({
 	}
 	
 });
+
+Ext.create('Ext.data.Store', {
+    model: 'Ark.models.Customer',
+    proxy: {
+	        type: 'ajax',
+	        url : '/customers',
+	        reader: {
+	            type: 'json',
+	            root: 'customers'
+	        }
+	},
+    autoLoad: true,
+	storeId: 'customers_index'
+})
