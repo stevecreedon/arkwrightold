@@ -62,7 +62,7 @@ Ext.define('Ark.views.Customers', {
 		        text: 'edit',
 				listeners: {
 					click: function(item, event, opts){
-						openWindow('customer', {email: selected().get('email')});
+						openWindow('customer', {key: selected().get('key')});
 						menu.hide();
 					}
 				}
@@ -111,7 +111,7 @@ Ext.define('Ark.views.Customers', {
 						}),
 						listeners:{
 							itemdblclick: function(a,record){
-							    openWindow('customer', {email: record.get('email')});
+							    openWindow('customer', {key: record.get('key')});
 							},
 							cellclick: function(grid, cellHtml, columnIndex, record, rowHtml, rowIndex, event){
 								if(columnIndex == 6){
@@ -123,6 +123,11 @@ Ext.define('Ark.views.Customers', {
 						},
                         columns: [
                             new Ext.grid.RowNumberer(),
+							{
+                                text: "key",
+                                hidden: true,
+                                dataIndex: 'key'
+                            },
                             {
                                 text: "name",
                                 flex: 1,

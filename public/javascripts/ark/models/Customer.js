@@ -1,6 +1,7 @@
 Ext.define('Ark.models.Customer', {
     extend: 'Ext.data.Model',
     fields: [
+        {name: 'key',  type: 'string'},
         {name: 'name',  type: 'string'},
         {name: 'email',   type: 'string'},
         {name: 'created',   type: 'date'},
@@ -12,9 +13,9 @@ Ext.define('Ark.models.Customer', {
 
 Ark.models.Customer.addStatics({
 	
-	find: function(email, handler){
+	find: function(key, handler){
 		Ext.Ajax.request({
-		    url: 'customers/' + email.replace(/\./g,"_DOT_"),
+		    url: 'customers/' + key,
 		    method: 'GET',
 		    success: function(result, request) {
 			    var json = Ext.decode(result.responseText);

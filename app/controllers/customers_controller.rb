@@ -2,7 +2,9 @@ class CustomersController < ApplicationController
   
   def index
     data = Customer.all.collect do |c|
-      {:name => "#{c.first_name} #{c.last_name}", 
+      {
+      :key => c.key,  
+      :name => "#{c.first_name} #{c.last_name}", 
       :email => c.email, 
       :created => c.created_at, 
       :orders_count => c.orders_count,

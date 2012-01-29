@@ -6,7 +6,8 @@ Ext.define('Ark.views.Customer', {
         'Ext.util.Format',
         'Ext.grid.Panel',
         'Ext.grid.RowNumberer',
-		'Ext.Date'
+		'Ext.Date',
+		'Ark.views.CustomerPanels'
     ],
 
     id:'customer',
@@ -24,49 +25,18 @@ Ext.define('Ark.views.Customer', {
         var desktop = this.app.getDesktop();
         var win = desktop.getWindow('customer');
         var setCustomer = function(customer){
-	        namePanel(customer);
+			win.setTitle('Customer: ' + customer.first_name + " " + customer.last_name)
+	        win.add(Ark.views.CustomerPanels.namePanel(customer)) //namePanel(customer);
 			for(i in customer.addresses){
 				var address = customer.addresses[i];
-				addressPanel(address);
+				win.add(Ark.views.CustomerPanels.addressPanel(address));
 			}
 		};
-		var namePanel = function(customer){
-			var panel = new Ext.Panel({title:"customer"})
-			var created = new Date(customer.created_at);
-			var builder = new Ext.ux.desktop.HtmlBuilder();
-			
-			builder.add(customer.first_name + " " + customer.last_name, "h1");
-			builder.add(customer.addresses[0].city + ", " + customer.addresses[0].country);
-			builder.add("<a href='mailto:" + customer.email + "'>" + customer.email + "</a>");
-			builder.add("accepts marketing? " + customer.accepts_marketing);
-			builder.add("became customer on " + Ext.Date.format(created, Ext.Date.format(created, 'd-m-Y')));
-			builder.add("Orders: " + customer.orders_count);
-			builder.add("Spent: £" + customer.total_spent);
-			
-			panel.update(builder.html());
-			win.add(panel);
-		};
-		
-		var addressPanel = function(address){
-			var panel = new Ext.Panel({title:"address"});
-			var builder = new Ext.ux.desktop.HtmlBuilder();
-			
-			builder.add(address.address1);
-			builder.add(address.address2);
-			builder.add(address.province);
-			builder.add(address.city);
-			builder.add(address.zip);
-			builder.add(address.country);
-			
-			panel.update(builder.html());
-			win.add(panel);
-		}
-		
+				
         if(!win){
             win = desktop.createWindow({
-                id: 'customer' + args.email,
-				email: args.email,
-                title:'Customer: ' + args.email,
+                id: 'customer:' + args.key,
+                title:'Customer:',
                 width:370,
                 height:400,
                 iconCls: 'icon-grid',
@@ -74,7 +44,7 @@ Ext.define('Ark.views.Customer', {
                 constrainHeader:true,
 				listeners: {
 					show: function(){
-					   Ark.models.Customer.find(args.email, setCustomer);
+					   Ark.models.Customer.find(args.key, setCustomer);
 					}
 				},
                 layout: 'accordion',

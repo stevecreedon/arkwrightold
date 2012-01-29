@@ -17,7 +17,7 @@ class Customer
   property :email, String
   
   def key
-    self.email
+    self.id
   end
   
   

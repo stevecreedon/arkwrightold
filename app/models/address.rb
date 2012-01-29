@@ -1,6 +1,6 @@
 class Address
    include Ripple::EmbeddedDocument
-  
+    
    property :name, String
    property :first_name, String
    property :last_name, String
