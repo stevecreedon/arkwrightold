@@ -2,6 +2,7 @@ class Customer
   include Ripple::Document
   
   many :addresses
+  many :orders
   
   property :accepts_marketing, Boolean
   property :orders_count, Integer

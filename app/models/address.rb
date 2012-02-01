@@ -1,5 +1,7 @@
 class Address
    include Ripple::EmbeddedDocument
+   
+   embedded_in :order
     
    property :name, String
    property :first_name, String

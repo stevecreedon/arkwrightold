@@ -17,6 +17,10 @@ module Shopify
       @object ||= ripple_class.new
     end
     
+    def underscored
+      @object.class.name.underscore
+    end
+    
     def to_ripple
       ripple_class.associations.each do |key, value|
         associate(value)
@@ -27,26 +31,37 @@ module Shopify
     end
     
     def associate(association)
-      child_shopify_objects = shopify_object.attributes.delete(association.name.to_sym)
-      return unless child_shopify_objects
+      child_shopify_objects = [shopify_object.attributes.delete(association.name.to_sym)].flatten.compact
+      return if child_shopify_objects.empty?
       
-      if child_shopify_objects.is_a?(Array)
-        child_shopify_objects.each do |child_shopify_object|
-          object.send(association.name.to_sym) << child(child_shopify_object, association)
-        end
-      else
-        object.send("#{association.name}=".to_sym, child(child_shopify_objects, association))
+      child_shopify_objects.each do |child_shopify_object|
+        link(document(child_shopify_object, association), association)
       end
-      
-      
     end
     
-    def child(child_shopify_object, association)
+    def link(linked, association)
+      object.send(association.name.to_sym) << linked if association.many?
+      object.send("#{association.name}=".to_sym, linked) if association.one?
+      link_back(linked, association) if association.linked?
+    end
+    
+    def link_back(linked, association)
+      reversed = reverse_association(linked, association)
+      linked.send(reversed.name) << object if reversed.many?
+      linked.send("#{reversed.name}=".to_sym, object) if reversed.one?
+    end
+    
+    def reverse_association(linked, association)
+      linked_associations = linked.class.associations
+      return linked_associations[underscored] if linked_associations[underscored]
+      return linked_associations[underscored.pluralize] if linked_associations[underscored.pluralize]
+      raise "cannot find a reverse link association for #{association.inspect} in #{object.class.name}"
+    end
+    
+    def document(child_shopify_object, association)
       return Transformer.new(child_shopify_object, association.klass).to_ripple if association.embeddable?
       return association.klass.find(child_shopify_object.id)
     end
-    
-    
     
   end
 end

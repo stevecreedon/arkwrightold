@@ -31,6 +31,14 @@ Ark.views.CustomerPanels.addStatics({
 		
 		panel.update(builder.html());
 		return panel;
+	},
+	orderPanel: function(order){
+		var panel = new Ext.Panel({title:"order"});
+		var builder = new Ext.ux.desktop.HtmlBuilder();
+		builder.add("Order");
+		
+		panel.update(builder.html());
+		return panel;
 	}
 	
 })

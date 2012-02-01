@@ -102,7 +102,7 @@ Ext.define('Ark.views.Customers', {
 							    openWindow('customer', {key: record.get('key')});
 							},
 							cellclick: function(grid, cellHtml, columnIndex, record, rowHtml, rowIndex, event){
-								if(columnIndex == 6){
+								if(columnIndex == 7){
 									event.stopEvent();
 									menu.showAt(event.xy);
 								}
@@ -158,8 +158,8 @@ Ext.define('Ark.views.Customers', {
                     }
                 ],
                 tbar:[{
-                    text:'Add Something',
-                    tooltip:'Add a new row',
+                    text:'Unfulfilled',
+                    tooltip:'Customers we haven not shipped-to',
                     iconCls:'add'
                 }, '-', {
                     text:'Options',
